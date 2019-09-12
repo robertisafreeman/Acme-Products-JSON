@@ -1,4 +1,5 @@
 const fs = require('fs');
+const FILE = './products.json';
 
 
 module.exports = (FILE, validator) => {
