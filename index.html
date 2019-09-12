@@ -38,15 +38,19 @@ ul{
           this.createProduct = this.createProduct.bind(this)
         }
         async createProduct() {
-            const products = [...this.state.products, (await axios.post('/api/products', { name: this.state.name, price: this.state.price })).data];
-            this.setState({ users });
+            const { price, name } = this.state;
+            const product = (await axios.post('/api/products', { name, price })).data;
+            this.setState({ products: [...this.state.products, product] });
+        }
+        async deleteProduct() {
+            const products = [];
         }
         async componentDidMount(){
           this.setState({ products: ( await axios.get('/api/products')).data});
         }
         render(){
           const { products, name, error, price } = this.state;
-          const { createProduct } = this;
+          const { createProduct, deleteProduct } = this;
           return (
             <div>
               <h1>Acme Products</h1>
@@ -58,7 +62,7 @@ ul{
               </div>
               <ul>
                 {
-                  products.map( product => <li onClick={()=> console.log('TO DO Destroy')} key={ product.id }>
+                  products.map( product => <li onClick={ deleteProduct } key={ product.id }>
                     <div>{ product.name }</div>
                   </li>)
                 }
